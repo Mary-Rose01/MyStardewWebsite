@@ -21,7 +21,7 @@ public class CharacterDataService
                 Family = new() { "Robin (Mother)", "Demetrius (Stepfather)", "Maru (Half-sister)" },
                 ShortDescription = "A rebellious loner living in his family's basement, working remotely as a programmer.",
                 DetailedDescription = "Sebastian often feels overshadowed by his half-sister Maru and struggles with feelings of isolation. Despite his guarded demeanor, he is deeply thoughtful, loves rainy days, and dreams of taking his motorcycle to the big city.",
-                ImageUrl = "https://stardewvalleywiki.com/mediawiki/images/0/04/Sebastian.png"
+                ImageUrl = "https://stardewvalleywiki.com/mediawiki/images/a/a8/Sebastian.png"
             },
             new Character
             {
@@ -91,7 +91,7 @@ public class CharacterDataService
                 Family = new() { "George (Grandfather)", "Evelyn (Grandmother)" },
                 ShortDescription = "An ambitious jock who dreams of becoming a pro Gridball player.",
                 DetailedDescription = "While he can come off as cocky or boastful early on, Alex carries lingering pain from a difficult childhood with his late mother. Beneath the sports bravado, he is sensitive, values family loyalty, and strives to prove his worth.",
-                ImageUrl = "https://stardewvalleywiki.com/mediawiki/images/7/77/Alex.png"
+                ImageUrl = "https://stardewvalleywiki.com/mediawiki/images/0/04/Alex.png"
             },
 
             // --- BACHELORETTES ---
@@ -163,7 +163,7 @@ public class CharacterDataService
                 Family = new() { "Pam (Mother)" },
                 ShortDescription = "A kind-hearted, shy teacher who tutors Jas and Vincent under the town tree.",
                 DetailedDescription = "Penny lives in a cramped trailer with her alcoholic mother, Pam, and works hard to keep a clean, peaceful home. She is selfless and gentle, finding solace in thick library books and hoping for a warm family life of her own.",
-                ImageUrl = "https://stardewvalleywiki.com/mediawiki/images/b/bd/Penny.png"
+                ImageUrl = "https://stardewvalleywiki.com/mediawiki/images/a/ab/Penny.png"
             },
             new Character
             {

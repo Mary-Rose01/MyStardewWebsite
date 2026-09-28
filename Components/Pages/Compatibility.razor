@@ -4,39 +4,27 @@
 @using MyWebsite.Services
 @inject CharacterDataService CharacterData
 
-<div class="w-full flex-1 flex flex-col items-center px-6 py-8 md:px-16 lg:px-24">
+<div class="stardew-bg-fixed"></div>
 
-    <!-- Page Header Banner -->
-    <div class="bg-[#f7dfa5] border-4 border-amber-900 px-8 py-3 rounded-lg shadow-xl mb-8 text-center max-w-2xl w-full">
-        <h1 class="text-2xl md:text-3xl font-extrabold text-amber-950 tracking-wide">
-            Pelican Town Compatibility Matrix
-        </h1>
-        <p class="text-xs md:text-sm text-amber-900/90 mt-1 font-medium">
+<div class="stardew-page-container">
+    <!-- Header Banner -->
+    <div class="stardew-banner-header">
+        <h1 class="stardew-banner-title">Pelican Town Compatibility Matrix</h1>
+        <p class="stardew-banner-subtitle">
             Select any two residents to calculate their friendship and synergy rating!
         </p>
     </div>
 
-    <!-- Main Parchment Board -->
-    <div class="w-full max-w-4xl bg-[#fdf5df] border-4 border-amber-900 rounded-lg p-6 md:p-8 shadow-2xl flex flex-col gap-8">
-
-        <!-- ========================================== -->
-        <!-- 1. CHARACTER SELECTORS & PORTRAITS         -->
-        <!-- ========================================== -->
+    <!-- Main Board -->
+    <div class="stardew-parchment-board">
         <div class="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
             
-            <!-- Character 1 Column -->
-            <div class="md:col-span-5 flex flex-col items-center gap-3 bg-[#f7dfa5]/60 border-2 border-amber-900/40 rounded-lg p-4">
+            <!-- Resident 1 -->
+            <div class="stardew-select-box">
                 <label class="text-sm font-bold text-amber-950">Select Resident 1</label>
-                
-                <select @bind="selectedCharId1" 
-                        class="w-full px-3 py-2 bg-[#fdf5df] border-2 border-amber-900 text-amber-950 font-semibold rounded shadow-inner cursor-pointer focus:outline-none">
-                    @foreach (var c in allCharacters)
-                    {
-                        <option value="@c.Id">@c.Name</option>
-                    }
+                <select @bind="selectedCharId1" class="stardew-dropdown">
+                    @foreach (var c in allCharacters) { <option value="@c.Id">@c.Name</option> }
                 </select>
-
-                <!-- Portrait Preview -->
                 @if (char1 != null)
                 {
                     <div class="w-24 h-24 rounded border-4 border-amber-900 bg-amber-950/20 overflow-hidden shadow-md mt-2">
@@ -47,26 +35,17 @@
                 }
             </div>
 
-            <!-- "VS / +" Icon Column -->
+            <!-- Divider Icon -->
             <div class="md:col-span-1 flex justify-center py-2">
-                <div class="w-10 h-10 rounded-full bg-amber-900 text-amber-200 flex items-center justify-center font-extrabold text-lg shadow">
-                    &amp;
-                </div>
+                <div class="w-10 h-10 rounded-full bg-amber-900 text-amber-200 flex items-center justify-center font-extrabold text-lg shadow">&amp;</div>
             </div>
 
-            <!-- Character 2 Column -->
-            <div class="md:col-span-5 flex flex-col items-center gap-3 bg-[#f7dfa5]/60 border-2 border-amber-900/40 rounded-lg p-4">
+            <!-- Resident 2 -->
+            <div class="stardew-select-box">
                 <label class="text-sm font-bold text-amber-950">Select Resident 2</label>
-                
-                <select @bind="selectedCharId2" 
-                        class="w-full px-3 py-2 bg-[#fdf5df] border-2 border-amber-900 text-amber-950 font-semibold rounded shadow-inner cursor-pointer focus:outline-none">
-                    @foreach (var c in allCharacters)
-                    {
-                        <option value="@c.Id">@c.Name</option>
-                    }
+                <select @bind="selectedCharId2" class="stardew-dropdown">
+                    @foreach (var c in allCharacters) { <option value="@c.Id">@c.Name</option> }
                 </select>
-
-                <!-- Portrait Preview -->
                 @if (char2 != null)
                 {
                     <div class="w-24 h-24 rounded border-4 border-amber-900 bg-amber-950/20 overflow-hidden shadow-md mt-2">
@@ -76,12 +55,8 @@
                     <span class="text-xs text-amber-900/80">Fav Season: @char2.FavoriteSeason</span>
                 }
             </div>
-
         </div>
 
-        <!-- ========================================== -->
-        <!-- 2. COMPATIBILITY SCORE BAR                 -->
-        <!-- ========================================== -->
         @if (char1 != null && char2 != null)
         {
             <div class="flex flex-col items-center gap-3 bg-[#f7dfa5] border-2 border-amber-900 p-5 rounded-lg shadow-inner">
@@ -90,7 +65,6 @@
                     <span class="font-extrabold text-2xl text-amber-950">@compatibilityScore%</span>
                 </div>
 
-                <!-- Progress Meter -->
                 <div class="w-full max-w-md bg-amber-950/20 border-2 border-amber-900 h-6 rounded-full overflow-hidden p-0.5">
                     <div class="h-full rounded-full transition-all duration-500 @GetScoreColor(compatibilityScore)"
                          style="width: @compatibilityScore%;">
@@ -102,14 +76,9 @@
                 </p>
             </div>
 
-            <!-- ========================================== -->
-            <!-- 3. COMPATIBILITY BREAKDOWN & ANALYSIS      -->
-            <!-- ========================================== -->
             <div class="space-y-4 text-amber-950">
                 <h3 class="font-bold text-lg border-b-2 border-amber-900/20 pb-1">Compatibility Breakdown</h3>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <!-- Season Synergy -->
                     <div class="p-3 bg-white/60 border border-amber-900/20 rounded">
                         <strong class="block mb-1">Seasonal Alignment</strong>
                         @if (char1.FavoriteSeason == char2.FavoriteSeason)
@@ -122,7 +91,6 @@
                         }
                     </div>
 
-                    <!-- Shared Hobbies -->
                     <div class="p-3 bg-white/60 border border-amber-900/20 rounded">
                         <strong class="block mb-1">Common Hobbies</strong>
                         @if (sharedHobbies.Any())
@@ -136,7 +104,6 @@
                     </div>
                 </div>
 
-                <!-- Lore / Relationship Note -->
                 @if (!string.IsNullOrEmpty(loreNote))
                 {
                     <div class="p-3 bg-amber-200/50 border-l-4 border-amber-900 rounded text-xs md:text-sm italic">
@@ -145,9 +112,7 @@
                 }
             </div>
         }
-
     </div>
-
 </div>
 
 @code {
@@ -185,8 +150,6 @@
     protected override void OnInitialized()
     {
         allCharacters = CharacterData.GetAllCharacters();
-
-        // Default selections: Sebastian (Id: 1) and Abigail (Id: 7)
         if (allCharacters.Count >= 2)
         {
             _selectedCharId1 = allCharacters[0].Id;
@@ -199,7 +162,6 @@
     {
         char1 = allCharacters.FirstOrDefault(c => c.Id == selectedCharId1);
         char2 = allCharacters.FirstOrDefault(c => c.Id == selectedCharId2);
-
         if (char1 == null || char2 == null) return;
 
         if (char1.Id == char2.Id)
@@ -211,20 +173,14 @@
             return;
         }
 
-        int score = 40; // Base score
+        int score = 40;
         loreNote = string.Empty;
 
-        // 1. Season match (+25%)
-        if (char1.FavoriteSeason.Equals(char2.FavoriteSeason, StringComparison.OrdinalIgnoreCase))
-        {
-            score += 25;
-        }
+        if (char1.FavoriteSeason.Equals(char2.FavoriteSeason, StringComparison.OrdinalIgnoreCase)) score += 25;
 
-        // 2. Shared hobbies (+15% each)
         sharedHobbies = char1.Hobbies.Intersect(char2.Hobbies, StringComparer.OrdinalIgnoreCase).ToList();
         score += sharedHobbies.Count * 15;
 
-        // 3. In-Game Canon Pairings / Family Special Checks
         bool isPair(string nameA, string nameB) =>
             (char1.Name == nameA && char2.Name == nameB) || (char1.Name == nameB && char2.Name == nameA);
 

@@ -11,6 +11,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSingleton<QuizDataService>();
 builder.Services.AddScoped<QuizStateService>();
 builder.Services.AddSingleton<CharacterDataService>();
+builder.Services.AddSingleton<FeedbackService>();
 
 var app = builder.Build();
 

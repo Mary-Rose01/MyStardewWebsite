@@ -1,4 +1,4 @@
-/* _content/MyWebsite/Components/Layout/MainLayout.razor.rz.scp.css */
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
 .page[b-otyt5m20kp] {
     position: relative;
     display: flex;
@@ -95,7 +95,7 @@ main[b-otyt5m20kp] {
         right: 0.75rem;
         top: 0.5rem;
     }
-/* _content/MyWebsite/Components/Layout/NavMenu.razor.rz.scp.css */
+/* /Components/Layout/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-s2hbolrd4z] {
     appearance: none;
     cursor: pointer;

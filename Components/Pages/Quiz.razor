@@ -5,50 +5,137 @@
 @inject QuizDataService QuizData
 @inject QuizStateService QuizState
 @inject CharacterDataService CharacterData
+@inject NavigationManager Nav
 
-@if (questions == null || questions.Count == 0)
-{
-    <p>Loading questions...</p>
-}
-else if (isQuizFinished)
-{
-    <h2>Quiz Complete!</h2>
-    <p>Your top match: <strong>@winnerName</strong> (Score: @winnerScore)</p>
+<!-- Fixed Background matching the site theme -->
+<div class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+     style="background-image: url('/images/main_bg.png');">
+</div>
 
-    <h3>Top 3 Matches:</h3>
-    <ul>
-        @foreach (var entry in scores.OrderByDescending(s => s.Value))
-        {
-            <li>@entry.Key: @entry.Value points</li>
-        }
-    </ul>
+<div class="w-full flex-1 flex flex-col items-center justify-center px-4 py-8 md:px-12 lg:px-20 min-h-[calc(100vh-4rem)]">
 
-    <button @onclick="RestartQuiz">Try Again</button>
-}
-else
-{
-    <div>
-        <p>Question @(currentIndex + 1) of @questions.Count</p>
-        <h3>@currentQuestion.QuestionItem</h3>
-
-        <div>
-            @foreach (var option in currentQuestion.Options)
-            {
-                <div style="margin-bottom: 8px;">
-                    <button @onclick="() => SelectOption(option)">
-                        @option.Text
-                    </button>
-                </div>
-            }
+    @if (questions == null || questions.Count == 0)
+    {
+        <div class="bg-[#f7dfa5] border-4 border-amber-900 px-6 py-4 rounded-lg shadow-xl text-amber-950 font-bold">
+            Loading questions...
         </div>
-    </div>
-}
+    }
+    else if (isQuizFinished)
+    {
+        <!-- ========================================== -->
+        <!-- RESULTS PARCHMENT BOARD                    -->
+        <!-- ========================================== -->
+        <div class="w-full max-w-2xl bg-[#fdf5df] border-4 border-amber-900 rounded-lg p-6 md:p-8 shadow-2xl flex flex-col items-center text-center gap-6">
+            
+            <div class="bg-[#f7dfa5] border-2 border-amber-900 px-6 py-2 rounded shadow-md w-full">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-amber-950">Quiz Complete!</h2>
+            </div>
+
+            <!-- Winner Highlight -->
+            <div class="flex flex-col items-center gap-3">
+                <p class="text-sm md:text-base text-amber-900/90 font-medium">Your Top Best Friend Match:</p>
+                <h3 class="text-3xl md:text-4xl font-extrabold text-blue-900 drop-shadow-sm">@winnerName</h3>
+                <span class="inline-block bg-emerald-700 text-amber-100 text-xs md:text-sm font-bold px-4 py-1 rounded-full shadow">
+                    Top Score: @winnerScore pts
+                </span>
+            </div>
+
+            <!-- Top 3 Match List -->
+            <div class="w-full bg-[#f7dfa5]/60 border-2 border-amber-900/40 rounded-lg p-4 text-left">
+                <h4 class="font-bold text-amber-950 mb-3 text-base border-b border-amber-900/20 pb-1">Top 3 Matches</h4>
+                <div class="space-y-2">
+                    @foreach (var (entry, rank) in topThreeMatches.Select((val, i) => (val, i + 1)))
+                    {
+                        <div class="flex justify-between items-center bg-[#fdf5df] border border-amber-900/30 px-3 py-2 rounded font-semibold text-amber-950 text-sm">
+                            <span>#@rank @entry.Key</span>
+                            <span class="text-amber-800">@entry.Value pts</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                <button @onclick="RestartQuiz"
+                        class="cursor-pointer rounded border-2 border-amber-950 bg-amber-800 px-6 py-2.5 text-sm font-semibold text-amber-100 shadow-[0_3px_0_0_rgba(120,53,15,0.8)] transition-all hover:bg-amber-700 active:translate-y-0.5 active:shadow-none">
+                    Try Again
+                </button>
+                <button @onclick="@(() => Nav.NavigateTo("/characters"))"
+                        class="cursor-pointer rounded border-2 border-blue-950 bg-blue-800 px-6 py-2.5 text-sm font-semibold text-amber-200 shadow-[0_3px_0_0_rgba(30,58,138,0.8)] transition-all hover:bg-blue-700 active:translate-y-0.5 active:shadow-none">
+                    View Dossiers
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- ========================================== -->
+        <!-- ACTIVE QUIZ PARCHMENT BOARD                -->
+        <!-- ========================================== -->
+        <div class="w-full max-w-3xl bg-[#fdf5df] border-4 border-amber-900 rounded-lg p-6 md:p-8 shadow-2xl flex flex-col gap-6">
+
+            <!-- Top Header: Question Title & Progress Label -->
+            <div class="flex justify-between items-baseline text-amber-950 font-bold">
+                <h2 class="text-xl md:text-2xl font-extrabold tracking-wide">
+                    Question @(currentIndex + 1)
+                </h2>
+                <span class="text-xs md:text-sm text-amber-900/80">
+                    Quiz Progress (@(currentIndex + 1) of @questions.Count)
+                </span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-amber-950/20 border-2 border-amber-900 h-4 rounded-full overflow-hidden p-0.5">
+                <div class="h-full bg-blue-700 rounded-full transition-all duration-300"
+                     style="width: @(Math.Round(((double)(currentIndex + 1) / questions.Count) * 100))%;">
+                </div>
+            </div>
+
+            <!-- Question Prompt -->
+            <p class="text-base md:text-lg font-bold text-amber-950 leading-snug">
+                @currentQuestion.QuestionItem
+            </p>
+
+            <!-- Option Selection Buttons -->
+            <div class="flex flex-col gap-3">
+                @foreach (var (opt, idx) in currentQuestion.Options.Select((o, i) => (o, i)))
+                {
+                    char letter = (char)('A' + idx);
+                    bool isSelected = selectedOption == opt;
+
+                    <button @onclick="() => SelectOptionChoice(opt)"
+                            class="w-full flex items-center gap-3 text-left p-2.5 md:p-3 rounded border-2 cursor-pointer transition-all duration-150 @(isSelected ? "bg-amber-200/90 border-blue-900 ring-2 ring-blue-700 shadow-inner" : "bg-[#f7dfa5]/50 border-amber-900/60 hover:bg-[#f7dfa5] hover:border-amber-900 shadow-sm")">
+                        <!-- Choice Letter Badge -->
+                        <span class="w-7 h-7 flex shrink-0 items-center justify-center rounded border border-amber-900 font-bold text-xs @(isSelected ? "bg-blue-800 text-amber-200 border-blue-950" : "bg-[#fdf5df] text-amber-950")">
+                            @letter
+                        </span>
+                        <!-- Choice Text -->
+                        <span class="text-xs md:text-sm font-semibold text-amber-950 leading-relaxed">
+                            @opt.Text
+                        </span>
+                    </button>
+                }
+            </div>
+
+            <!-- Bottom Action: Submit & Next Button -->
+            <div class="flex justify-end pt-2">
+                <button @onclick="SubmitAndNext"
+                        disabled="@(selectedOption == null)"
+                        class="cursor-pointer rounded border-2 border-blue-950 bg-blue-800 px-6 py-2.5 text-xs md:text-sm font-semibold text-amber-300 shadow-[0_3px_0_0_rgba(30,58,138,0.8)] transition-all hover:bg-blue-700 active:translate-y-0.5 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                    Submit &amp; Next &rarr;
+                </button>
+            </div>
+
+        </div>
+    }
+</div>
 
 @code {
     private List<Question> questions = new();
     private int currentIndex = 0;
     private bool isQuizFinished = false;
 
+    private QuizOption? selectedOption;
     private Dictionary<string, int> scores = new();
     private List<KeyValuePair<string, int>> topThreeMatches = new();
     private string winnerName = string.Empty;
@@ -61,9 +148,17 @@ else
         questions = QuizData.GetQuestions();
     }
 
-    private void SelectOption(QuizOption option)
+    private void SelectOptionChoice(QuizOption option)
     {
-        foreach (var (character, points) in option.CharacterWeights)
+        selectedOption = option;
+    }
+
+    private void SubmitAndNext()
+    {
+        if (selectedOption == null) return;
+
+        // Apply character weights
+        foreach (var (character, points) in selectedOption.CharacterWeights)
         {
             if (!scores.ContainsKey(character))
             {
@@ -71,6 +166,8 @@ else
             }
             scores[character] += points;
         }
+
+        selectedOption = null;
 
         if (currentIndex < questions.Count - 1)
         {
@@ -83,34 +180,34 @@ else
     }
 
     private void FinishQuiz()
-{
-    isQuizFinished = true;
-
-    if (scores.Any())
     {
-        topThreeMatches = scores.OrderByDescending(s => s.Value)
-                                .Take(3)
-                                .ToList();
+        isQuizFinished = true;
 
-        var top = topThreeMatches.First();
-        winnerName = top.Key;
-        winnerScore = top.Value;
-
-        // Find the matched Character object and update global state
-        var matchedChar = CharacterData.GetAllCharacters()
-                                       .FirstOrDefault(c => c.Name.Equals(winnerName, StringComparison.OrdinalIgnoreCase));
-        
-        if (matchedChar != null)
+        if (scores.Any())
         {
-            QuizState.CompleteQuiz(matchedChar);
+            topThreeMatches = scores.OrderByDescending(s => s.Value)
+                                    .Take(3)
+                                    .ToList();
+
+            var top = topThreeMatches.First();
+            winnerName = top.Key;
+            winnerScore = top.Value;
+
+            var matchedChar = CharacterData.GetAllCharacters()
+                                           .FirstOrDefault(c => c.Name.Equals(winnerName, StringComparison.OrdinalIgnoreCase));
+
+            if (matchedChar != null)
+            {
+                QuizState.CompleteQuiz(matchedChar);
+            }
         }
     }
-}
 
     private void RestartQuiz()
     {
         scores.Clear();
         topThreeMatches.Clear();
+        selectedOption = null;
         currentIndex = 0;
         isQuizFinished = false;
         winnerName = string.Empty;

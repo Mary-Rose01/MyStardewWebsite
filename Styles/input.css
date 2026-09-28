@@ -1,3 +1,86 @@
 @import "tailwindcss";
 
 @source "../";
+
+/* ========================================================
+   STARDEW THEME UTILITIES
+   ======================================================== */
+
+/* General Background & Layout */
+.stardew-bg-fixed {
+    @apply fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat;
+    background-image: url('/images/main_bg.png');
+}
+
+.stardew-page-container {
+  @apply w-full flex-1 flex flex-col items-center px-6 py-8 md:px-16 lg:px-24;
+}
+
+.stardew-home-container {
+  @apply mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-8 lg:gap-16 lg:px-8;
+}
+
+/* Titles and Text */
+.stardew-hero-title {
+  @apply text-4xl font-bold leading-tight text-amber-400 drop-shadow-[0_3px_3px_rgba(0,0,0,0.6)] md:text-5xl lg:text-6xl;
+}
+
+.stardew-hero-desc {
+  @apply max-w-xl text-sm leading-relaxed text-amber-400 md:text-base;
+}
+
+.stardew-pixel-img {
+  @apply object-contain [image-rendering:pixelated];
+}
+
+/* Buttons */
+.stardew-btn-primary {
+  @apply cursor-pointer rounded border-2 border-blue-950 bg-blue-800 px-8 py-3 text-sm font-semibold text-amber-300 shadow-[0_4px_0_0_rgba(120,53,15,0.8)] transition-all hover:bg-blue-700 active:translate-y-0.5 active:shadow-none md:text-base;
+}
+
+.stardew-btn-secondary {
+  @apply cursor-pointer rounded border-2 border-sky-500 bg-transparent px-8 py-3 text-sm font-semibold text-amber-300 shadow-[0_4px_0_0_rgba(3,105,161,0.5)] transition-all hover:bg-sky-500/20 active:translate-y-0.5 active:shadow-none md:text-base;
+}
+
+/* Parchment Boards & Headers */
+.stardew-banner-header {
+  @apply bg-[#f7dfa5] border-4 border-amber-900 px-8 py-3 rounded-lg shadow-xl mb-8 text-center max-w-2xl w-full;
+}
+
+.stardew-banner-title {
+  @apply text-2xl md:text-3xl font-extrabold text-amber-950 tracking-wide;
+}
+
+.stardew-banner-subtitle {
+  @apply text-xs md:text-sm text-amber-900/90 mt-1 font-medium;
+}
+
+.stardew-section-badge {
+  @apply inline-block bg-[#f7dfa5] border-2 border-amber-900 px-6 py-1.5 rounded-t-lg shadow-sm mb-4;
+}
+
+.stardew-parchment-board {
+  @apply w-full max-w-4xl bg-[#fdf5df] border-4 border-amber-900 rounded-lg p-6 md:p-8 shadow-2xl flex flex-col gap-8;
+}
+
+/* Character Cards & Portraits */
+.stardew-card {
+  @apply relative bg-[#fdf5df] border-4 border-amber-900 rounded-lg p-5 shadow-xl flex flex-col justify-between transition-transform hover:-translate-y-1;
+}
+
+.stardew-card-bestfriend {
+  @apply relative bg-[#fdf5df] border-4 border-emerald-600 ring-4 ring-emerald-400 rounded-lg p-5 shadow-xl flex flex-col justify-between transition-transform hover:-translate-y-1;
+}
+
+.stardew-avatar-box {
+  @apply w-16 h-16 md:w-20 md:h-20 rounded border-2 border-amber-900 bg-amber-950/20 overflow-hidden shrink-0 shadow;
+}
+
+/* Form Controls (Compatibility Matrix) */
+.stardew-select-box {
+  @apply md:col-span-5 flex flex-col items-center gap-3 bg-[#f7dfa5]/60 border-2 border-amber-900/40 rounded-lg p-4;
+}
+
+.stardew-dropdown {
+  @apply w-full px-3 py-2 bg-[#fdf5df] border-2 border-amber-900 text-amber-950 font-semibold rounded shadow-inner cursor-pointer focus:outline-none;
+}

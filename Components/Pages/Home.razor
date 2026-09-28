@@ -2,107 +2,56 @@
 @rendermode InteractiveServer
 @inject NavigationManager Nav
 
-<div class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-     style="background-image: url('/images/main_bg.png');">
-</div>
+<div class="stardew-bg-fixed"></div>
 
-<div class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-8 lg:gap-16 lg:px-8">
-
-    <!-- DIV 1: HERO SECTION (horizontal on desktop, stacks on mobile) -->
-    <div class="flex flex-row items-center gap-8 lg:flex-row lg:gap-10">
-
-        <!-- 1.a LEFT: content laid out vertically -->
+<div class="stardew-home-container">
+    <!-- HERO SECTION -->
+    <div class="flex flex-row items-center gap-8 lg:gap-10">
         <div class="flex flex-col items-start gap-5 lg:w-7/12">
-
-            <!-- 1.a.1 Title -->
-            <h1 class="text-4xl font-bold leading-tight text-amber-400 drop-shadow-[0_3px_3px_rgba(0,0,0,0.6)] md:text-5xl lg:text-6xl">
-                Which Stardew Character Is For You?
-            </h1>
-
-            <!-- 1.a.2 Description -->
-            <p class="max-w-xl text-sm leading-relaxed text-amber-400 md:text-base">
+            <h1 class="stardew-hero-title">Which Stardew Character Is For You?</h1>
+            <p class="stardew-hero-desc">
                 Find out more about the NPCs in Stardew Valley and discover which character is available and best suited to live with you in your farm.
             </p>
-
-            <!-- 1.a.3 Buttons (horizontal) -->
             <div class="flex flex-row flex-wrap items-center gap-4 pt-1">
-                <button @onclick="StartQuiz"
-                        class="cursor-pointer rounded border-2 border-blue-950 bg-blue-800 px-8 py-3 text-sm font-semibold text-amber-300 shadow-[0_4px_0_0_rgba(120,53,15,0.8)] transition-all hover:bg-blue-700 active:translate-y-0.5 active:shadow-none md:text-base">
-                    Answer Now
-                </button>
-                <button @onclick="NavigateToCharacters"
-                        class="cursor-pointer rounded border-2 border-sky-500 bg-transparent px-8 py-3 text-sm font-semibold text-amber-300 shadow-[0_4px_0_0_rgba(3,105,161,0.5)] transition-all hover:bg-sky-500/20 active:translate-y-0.5 active:shadow-none md:text-base">
-                    Learn More
-                </button>
+                <button @onclick="StartQuiz" class="stardew-btn-primary">Answer Now</button>
+                <button @onclick="NavigateToCharacters" class="stardew-btn-secondary">Learn More</button>
             </div>
         </div>
 
-        <!-- 1.b RIGHT: image -->
         <div class="flex w-full justify-center lg:w-5/12 lg:justify-end">
-            <img src="/images/stardew_farm.png"
-                 alt="Stardew Valley farm"
-                 class="h-auto w-full max-w-md object-cover [image-rendering:pixelated] lg:max-w-none" />
+            <img src="/images/stardew_farm.png" alt="Stardew Valley farm" class="h-auto w-full max-w-md stardew-pixel-img lg:max-w-none" />
         </div>
     </div>
 
-    <!-- DIV 2: POPULAR BACHELORS AND BACHELORETTES (vertical) -->
+    <!-- POPULAR RESIDENTS -->
     <div class="flex flex-col items-center gap-6">
-
-        <!-- 2.a Title scroll image -->
-        <!-- NOTE: update this filename to match your exact file name -->
         <div class="flex justify-center">
-            <img src="/images/popular-bachelors-and-bachelorettes.png"
-                 alt="Popular Bachelors and Bachelorettes"
-                 class="h-auto w-full max-w-xs object-contain [image-rendering:pixelated] sm:max-w-md lg:max-w-[570px]" />
+            <img src="/images/popular-bachelors-and-bachelorettes.png" alt="Popular Bachelors and Bachelorettes"
+                 class="h-auto w-full max-w-xs stardew-pixel-img sm:max-w-md lg:max-w-[570px]" />
         </div>
 
-        <!-- 2.b Characters row (horizontal, wraps to 2 per row on mobile) -->
         <div class="flex w-full flex-row flex-wrap justify-center">
-
-            <!-- 2.b.1 Sebastian (vertical: portrait + label) -->
             <div class="flex w-1/2 flex-col items-center p-2 lg:w-1/4 lg:p-4">
-                <img src="/images/sebastian_portrait.png" alt="Sebastian"
-                     class="aspect-square w-full object-contain [image-rendering:pixelated]" />
-                <img src="/images/sebastian_label.png" alt="Sebastian"
-                     class="-mt-1 h-auto w-3/4 object-contain [image-rendering:pixelated]" />
+                <img src="/images/sebastian_portrait.png" alt="Sebastian" class="aspect-square w-full stardew-pixel-img" />
+                <img src="/images/sebastian_label.png" alt="Sebastian" class="-mt-1 h-auto w-3/4 stardew-pixel-img" />
             </div>
-
-            <!-- 2.b.1 Abigail -->
             <div class="flex w-1/2 flex-col items-center p-2 lg:w-1/4 lg:p-4">
-                <img src="/images/abigail_portrait.png" alt="Abigail"
-                     class="aspect-square w-full object-contain [image-rendering:pixelated]" />
-                <img src="/images/abigail_scroll.png" alt="Abigail"
-                     class="-mt-1 h-auto w-3/4 object-contain [image-rendering:pixelated]" />
+                <img src="/images/abigail_portrait.png" alt="Abigail" class="aspect-square w-full stardew-pixel-img" />
+                <img src="/images/abigail_scroll.png" alt="Abigail" class="-mt-1 h-auto w-3/4 stardew-pixel-img" />
             </div>
-
-            <!-- 2.b.1 Haley -->
             <div class="flex w-1/2 flex-col items-center p-2 lg:w-1/4 lg:p-4">
-                <img src="/images/haley_portrait.png" alt="Haley"
-                     class="aspect-square w-full object-contain [image-rendering:pixelated]" />
-                <img src="/images/haley_label.png" alt="Haley"
-                     class="-mt-1 h-auto w-3/4 object-contain [image-rendering:pixelated]" />
+                <img src="/images/haley_portrait.png" alt="Haley" class="aspect-square w-full stardew-pixel-img" />
+                <img src="/images/haley_label.png" alt="Haley" class="-mt-1 h-auto w-3/4 stardew-pixel-img" />
             </div>
-
-            <!-- 2.b.1 Penny -->
             <div class="flex w-1/2 flex-col items-center p-2 lg:w-1/4 lg:p-4">
-                <img src="/images/penny_portrait.png" alt="Penny"
-                     class="aspect-square w-full object-contain [image-rendering:pixelated]" />
-                <img src="/images/penny_label.png" alt="Penny"
-                     class="-mt-1 h-auto w-3/4 object-contain [image-rendering:pixelated]" />
+                <img src="/images/penny_portrait.png" alt="Penny" class="aspect-square w-full stardew-pixel-img" />
+                <img src="/images/penny_label.png" alt="Penny" class="-mt-1 h-auto w-3/4 stardew-pixel-img" />
             </div>
-
         </div>
     </div>
 </div>
 
 @code {
-    private void StartQuiz()
-    {
-        Nav.NavigateTo("/quiz");
-    }
-
-    private void NavigateToCharacters()
-    {
-        Nav.NavigateTo("/characters");
-    }
+    private void StartQuiz() => Nav.NavigateTo("/quiz");
+    private void NavigateToCharacters() => Nav.NavigateTo("/characters");
 }

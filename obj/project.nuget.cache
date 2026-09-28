@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2KUndLw5x30=",
+  "dgSpecHash": "DhWMPjmxXrA=",
   "success": true,
-  "projectFilePath": "Z:\\L23Y16W29\\WebsiteAct\\MyWebsite\\MyWebsite.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Aissha\\Documents\\MyStardewWebsite\\MyWebsite.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Aissha\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.12\\microsoft.aspnetcore.app.internal.assets.10.0.12.nupkg.sha512"
+  ],
   "logs": []
 }

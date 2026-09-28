@@ -5,14 +5,13 @@
 @inject CharacterDataService CharacterData
 @inject QuizStateService QuizState
 
-<div class="w-full flex-1 flex flex-col items-center px-6 py-8 md:px-16 lg:px-24">
+<div class="stardew-bg-fixed"></div>
 
-    <!-- Page Header Banner -->
-    <div class="bg-[#f7dfa5] border-4 border-amber-900 px-8 py-3 rounded-lg shadow-xl mb-8 text-center max-w-2xl w-full">
-        <h1 class="text-2xl md:text-3xl font-extrabold text-amber-950 tracking-wide">
-            Pelican Town Villagers
-        </h1>
-        <p class="text-xs md:text-sm text-amber-900/90 mt-1 font-medium">
+<div class="stardew-page-container">
+    <!-- Header Banner -->
+    <div class="stardew-banner-header">
+        <h1 class="stardew-banner-title">Pelican Town Villagers</h1>
+        <p class="stardew-banner-subtitle">
             @if (QuizState.HasCompletedQuiz && QuizState.MatchedCharacter != null)
             {
                 <span class="text-emerald-800 font-bold">★ Full dossiers unlocked! Your match: @QuizState.MatchedCharacter.Name ★</span>
@@ -32,39 +31,26 @@
     }
     else
     {
-        <!-- ========================================== -->
-        <!-- 1. BACHELORS SECTION                       -->
-        <!-- ========================================== -->
+        <!-- Bachelors -->
         <section class="w-full max-w-6xl mb-12">
-            <div class="inline-block bg-[#f7dfa5] border-2 border-amber-900 px-6 py-1.5 rounded-t-lg shadow-sm mb-4">
+            <div class="stardew-section-badge">
                 <h2 class="text-lg md:text-xl font-bold text-amber-950 tracking-wide">Bachelors</h2>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach (var bachelor in bachelors)
-                {
-                    @RenderCharacterCard(bachelor)
-                }
+                @foreach (var bachelor in bachelors) { @RenderCharacterCard(bachelor) }
             </div>
         </section>
 
-        <!-- ========================================== -->
-        <!-- 2. BACHELORETTES SECTION                   -->
-        <!-- ========================================== -->
+        <!-- Bachelorettes -->
         <section class="w-full max-w-6xl pb-12">
-            <div class="inline-block bg-[#f7dfa5] border-2 border-amber-900 px-6 py-1.5 rounded-t-lg shadow-sm mb-4">
+            <div class="stardew-section-badge">
                 <h2 class="text-lg md:text-xl font-bold text-amber-950 tracking-wide">Bachelorettes</h2>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach (var bachelorette in bachelorettes)
-                {
-                    @RenderCharacterCard(bachelorette)
-                }
+                @foreach (var bachelorette in bachelorettes) { @RenderCharacterCard(bachelorette) }
             </div>
         </section>
     }
-
 </div>
 
 @code {
@@ -72,7 +58,6 @@
     private List<Character> bachelors = new();
     private List<Character> bachelorettes = new();
 
-    // List of bachelor names from your CharacterDataService
     private readonly HashSet<string> bachelorNames = new(StringComparer.OrdinalIgnoreCase)
     {
         "Sebastian", "Shane", "Elliott", "Harvey", "Sam", "Alex"
@@ -89,8 +74,7 @@
     {
         bool isBestFriend = QuizState.HasCompletedQuiz && QuizState.MatchedCharacter?.Id == villager.Id;
 
-        <div class="relative bg-[#fdf5df] border-4 @(isBestFriend ? "border-emerald-600 ring-4 ring-emerald-400" : "border-amber-900") rounded-lg p-5 shadow-xl flex flex-col justify-between transition-transform hover:-translate-y-1">
-            
+        <div class="@(isBestFriend ? "stardew-card-bestfriend" : "stardew-card")">
             @if (isBestFriend)
             {
                 <div class="absolute -top-3 right-4 bg-emerald-600 text-amber-100 text-xs font-bold px-3 py-1 rounded-full border border-emerald-900 shadow">
@@ -99,12 +83,9 @@
             }
 
             <div>
-                <!-- Top Row: Avatar & Basic Info -->
                 <div class="flex items-center gap-4 mb-4 pb-3 border-b-2 border-amber-900/20">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded border-2 border-amber-900 bg-amber-950/20 overflow-hidden shrink-0 shadow">
-                        <img src="@villager.ImageUrl" 
-                             alt="@villager.Name" 
-                             class="w-full h-full object-cover [image-rendering:pixelated]" />
+                    <div class="stardew-avatar-box">
+                        <img src="@villager.ImageUrl" alt="@villager.Name" class="w-full h-full object-cover [image-rendering:pixelated]" />
                     </div>
                     <div>
                         <h3 class="text-xl font-bold text-amber-950">@villager.Name</h3>
@@ -113,23 +94,18 @@
                     </div>
                 </div>
 
-                <!-- Description Area -->
                 <div class="text-sm text-amber-950/90 leading-relaxed space-y-2">
                     @if (!QuizState.HasCompletedQuiz)
                     {
-                        <!-- Default View -->
                         <p class="italic">"@villager.ShortDescription"</p>
                         <p class="text-xs pt-1"><strong class="text-amber-950">Loved Gift:</strong> @villager.FavoriteGift</p>
                     }
                     else
                     {
-                        <!-- Unlocked Dossier View -->
                         <p class="text-xs md:text-sm font-normal">@villager.DetailedDescription</p>
-                        
                         <div class="pt-2 text-xs space-y-1 border-t border-amber-900/10">
                             <p><strong class="text-amber-950">Favorite Food:</strong> @villager.FavoriteFood</p>
                             <p><strong class="text-amber-950">Loved Gifts:</strong> @villager.FavoriteGift</p>
-                            
                             @if (villager.Hobbies.Any())
                             {
                                 <p><strong class="text-amber-950">Hobbies:</strong> @string.Join(", ", villager.Hobbies)</p>
@@ -142,7 +118,6 @@
                     }
                 </div>
             </div>
-
         </div>
     };
 }

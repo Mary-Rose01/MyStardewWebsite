@@ -1,0 +1,145 @@
+@page "/feedback"
+@rendermode InteractiveServer
+@using MyWebsite.Models
+@using MyWebsite.Services
+@inject FeedbackService FeedbackService
+
+<!-- Fixed Stardew Background[cite: 6] -->
+<div class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+     style="background-image: url('/images/main_bg.png');">
+</div>
+
+<div class="w-full flex-1 flex flex-col items-center px-4 py-8 md:px-12 lg:px-20 min-h-[calc(100vh-4rem)]">
+
+    <!-- Page Header Banner[cite: 7, 8] -->
+    <div class="bg-[#f7dfa5] border-4 border-amber-900 px-8 py-3 rounded-lg shadow-xl mb-8 text-center max-w-2xl w-full">
+        <h1 class="text-2xl md:text-3xl font-extrabold text-amber-950 tracking-wide">
+            Pelican Town Notice Board
+        </h1>
+        <p class="text-xs md:text-sm text-amber-900/90 mt-1 font-medium">
+            Leave your review, feedback, or thoughts about the quiz!
+        </p>
+    </div>
+
+    <div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Form to Leave a Rating[cite: 8] -->
+        <div class="lg:col-span-5 bg-[#fdf5df] border-4 border-amber-900 rounded-lg p-6 shadow-2xl flex flex-col gap-4">
+            <h2 class="text-lg font-bold text-amber-950 border-b-2 border-amber-900/20 pb-2">
+                Leave a Rating
+            </h2>
+
+            <!-- Name Input -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold text-amber-950">Farmer / Villager Name</label>
+                <input @bind="newReview.Name" 
+                       placeholder="e.g. Farmer Alex" 
+                       class="px-3 py-2 bg-[#f7dfa5]/40 border-2 border-amber-900 rounded text-amber-950 text-sm focus:outline-none focus:ring-1 focus:ring-amber-900" />
+            </div>
+
+            <!-- Star Rating Picker -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold text-amber-950">Rating (Stardrops / Stars)</label>
+                <div class="flex items-center gap-1">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        int starRating = i;
+                        <button type="button" 
+                                @onclick="() => SetStars(starRating)"
+                                class="text-2xl transition-transform hover:scale-125 cursor-pointer">
+                            @(starRating <= newReview.Stars ? "★" : "☆")
+                        </button>
+                    }
+                    <span class="text-xs font-bold text-amber-900 ml-2">(@newReview.Stars / 5)</span>
+                </div>
+            </div>
+
+            <!-- Comment Input -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold text-amber-950">Message / Comments</label>
+                <textarea @bind="newReview.Comment" 
+                          rows="4" 
+                          placeholder="Tell us what you liked or what to improve..." 
+                          class="px-3 py-2 bg-[#f7dfa5]/40 border-2 border-amber-900 rounded text-amber-950 text-sm focus:outline-none focus:ring-1 focus:ring-amber-900 resize-none">
+                </textarea>
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <span class="text-xs text-rose-700 font-semibold">@errorMessage</span>
+            }
+
+            <!-- Submit Button[cite: 6] -->
+            <button @onclick="SubmitFeedback"
+                    class="mt-2 cursor-pointer rounded border-2 border-blue-950 bg-blue-800 px-6 py-2.5 text-sm font-semibold text-amber-300 shadow-[0_3px_0_0_rgba(30,58,138,0.8)] transition-all hover:bg-blue-700 active:translate-y-0.5 active:shadow-none">
+                Post Review
+            </button>
+        </div>
+
+        <!-- Right: Recent Community Comments[cite: 7, 8] -->
+        <div class="lg:col-span-7 bg-[#fdf5df] border-4 border-amber-900 rounded-lg p-6 shadow-2xl flex flex-col gap-4">
+            <h2 class="text-lg font-bold text-amber-950 border-b-2 border-amber-900/20 pb-2">
+                Community Reviews (@FeedbackService.Reviews.Count)
+            </h2>
+
+            <div class="flex flex-col gap-3 max-h-[500px] overflow-y-auto pr-1">
+                @if (!FeedbackService.Reviews.Any())
+                {
+                    <p class="text-xs text-amber-900/70 italic">No reviews yet. Be the first to share your thoughts!</p>
+                }
+                else
+                {
+                    @foreach (var review in FeedbackService.Reviews)
+                    {
+                        <div class="bg-[#f7dfa5]/60 border-2 border-amber-900/30 rounded-lg p-3 flex flex-col gap-1 shadow-sm">
+                            <div class="flex justify-between items-center border-b border-amber-900/10 pb-1">
+                                <span class="font-bold text-sm text-amber-950">@review.Name</span>
+                                <div class="text-amber-700 text-sm tracking-wide">
+                                    @string.Concat(Enumerable.Repeat("★", review.Stars))@string.Concat(Enumerable.Repeat("☆", 5 - review.Stars))
+                                </div>
+                            </div>
+                            <p class="text-xs md:text-sm text-amber-950/90 leading-relaxed pt-1">
+                                @review.Comment
+                            </p>
+                            <span class="text-[10px] text-amber-900/60 text-right">
+                                @review.SubmittedAt.ToString("MMM dd, yyyy")
+                            </span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    private FeedbackModel newReview = new() { Stars = 5 };
+    private string errorMessage = string.Empty;
+
+    private void SetStars(int rating)
+    {
+        newReview.Stars = rating;
+    }
+
+    private void SubmitFeedback()
+    {
+        if (string.IsNullOrWhiteSpace(newReview.Name) || string.IsNullOrWhiteSpace(newReview.Comment))
+        {
+            errorMessage = "Please enter both your name and a comment.";
+            return;
+        }
+
+        errorMessage = string.Empty;
+        FeedbackService.AddFeedback(new FeedbackModel
+        {
+            Name = newReview.Name.Trim(),
+            Stars = newReview.Stars,
+            Comment = newReview.Comment.Trim(),
+            SubmittedAt = DateTime.Now
+        });
+
+        // Reset the form
+        newReview = new FeedbackModel { Stars = 5 };
+    }
+}

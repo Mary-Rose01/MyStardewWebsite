@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Aissha\\Documents\\MyStardewWebsite\\MyWebsite.csproj": {}
+    "/Users/maryrose/Projects/School/MyStardewWebsite/MyWebsite.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Aissha\\Documents\\MyStardewWebsite\\MyWebsite.csproj": {
+    "/Users/maryrose/Projects/School/MyStardewWebsite/MyWebsite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Aissha\\Documents\\MyStardewWebsite\\MyWebsite.csproj",
+        "projectUniqueName": "/Users/maryrose/Projects/School/MyStardewWebsite/MyWebsite.csproj",
         "projectName": "MyWebsite",
-        "projectPath": "C:\\Users\\Aissha\\Documents\\MyStardewWebsite\\MyWebsite.csproj",
-        "packagesPath": "C:\\Users\\Aissha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Aissha\\Documents\\MyStardewWebsite\\obj\\",
+        "projectPath": "/Users/maryrose/Projects/School/MyStardewWebsite/MyWebsite.csproj",
+        "packagesPath": "/Users/maryrose/.nuget/packages/",
+        "outputPath": "/Users/maryrose/Projects/School/MyStardewWebsite/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Aissha\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/maryrose/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -74,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
